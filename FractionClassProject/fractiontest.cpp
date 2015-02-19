@@ -8,14 +8,11 @@ using namespace std;
 #include "fraction_11ms99.h"	
 
 int main() {
-
-	// Test constructors and << operator overloading
-	Fraction test1;
-	cout << test1.getNumerator() << "/" << test1.getDenominator() << "\n"; //**
-	Fraction test2(2);
-	cout << test2.getNumerator() << "/" << test2.getDenominator() << "\n"; //**
-	Fraction test3(5,15);
-	cout << test3.getNumerator() << "/" << test3.getDenominator() << "\n"; //**
+	int okay(5);
+	okay = -okay;
+	cout << okay << endl;
+	////Test constructors and << operator overloading
+	//Fraction test1;
 	//cout << "Should be \"0/1\": " << test1 << endl;
 	//Fraction test2(4);
 	//cout << "Should be \"4/1\": " << test2 << endl;
@@ -24,7 +21,7 @@ int main() {
 	//Fraction test4(210, -60);
 	//cout << "Should be \"-7/2\": " << test4 << endl;
 
-	//// Test exception for when denominator is zero
+	////Test exception for when denominator is zero
 	//try {
 	//	Fraction test5(4, 0);
 	//	cout << "Should not get here: " << test5 << endl;
@@ -33,25 +30,25 @@ int main() {
 	//	cout << "Exception message should indicate illegal denominator: " << e.what() << endl;
 	//}
 
-	//// Test accessors
+	////Test accessors
 	//cout << "Numerator should be -7: " << test4.numerator() << endl;
 	//cout << "Denominator should be 2: " << test4.denominator() << endl;
 
-	//// Test binary arithmetic operators
-	//Fraction test6(9, 8);
-	//Fraction test7(1, 6);
-	//Fraction test8 = test6 + test7;
-	//cout << "Should be \"31/24\": " << test8 << endl;
-	//Fraction test9 = test6 - test7;
-	//cout << "Should be \"23/24\": " << test9 << endl;
-	//Fraction test10 = test6 - 1;
-	//cout << "Should be \"1/8\": " << test10 << endl;
-	//Fraction test11 = 2 - test7;
-	//cout << "Should be \"11/6\": " << test11 << endl;
-	//Fraction test12 = test6 * test7;
-	//cout << "Should be \"3/16\": " << test12 << endl;
-	//Fraction test13 = test6 / test7;
-	//cout << "Should be \"27/4\": " << test13 << endl;
+	// Test binary arithmetic operators
+	Fraction test6(9, 8);
+	Fraction test7(1, 6);
+	Fraction test8 = test6 + test7;
+	cout << "Should be \"31/24\": " << test8 << endl;
+	Fraction test9 = test6 - test7;
+	cout << "Should be \"23/24\": " << test9 << endl;
+	Fraction test10 = test6 - 1;
+	cout << "Should be \"1/8\": " << test10 << endl;
+	Fraction test11 = 2 - test7;
+	cout << "Should be \"11/6\": " << test11 << endl;
+	Fraction test12 = test6 * test7;
+	cout << "Should be \"3/16\": " << test12 << endl;
+	Fraction test13 = test6 / test7;
+	cout << "Should be \"27/4\": " << test13 << endl;
 
 	//// Test unary negation
 	//cout << "Should be \"-1/6\": " << -test7 << endl;

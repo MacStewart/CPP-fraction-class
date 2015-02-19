@@ -18,21 +18,32 @@ public:
 	Fraction();
 	Fraction(int);
 	Fraction(int, int);
-	int getNumerator() const;
-	int getDenominator() const;
+	int numerator() const;
+	int denominator() const;
 
 	Fraction& operator+=(const Fraction& rhs);
 	Fraction& operator++();		//Pre Increment
 	Fraction operator++(int);	//Post Incrememnt
 
 private:
-	int numerator;
-	int denominator;
-	int getGCD(int first, int second) const;
+	int mNumerator;
+	int mDenominator;
+	int getGCD(int first, int second) const;	//Gets the greatest common denominator of the two given integers
+	void normalizeFraction();					//Reduces fraction to atomic form, and ensures that if the fraction is negative, that the numerator is the negative value rather than the denominator.
 };
+
+Fraction operator-(const Fraction& fraction);
 
 Fraction operator+(const Fraction& lhs, const Fraction& rhs);
 Fraction operator-(const Fraction& lhs, const Fraction& rhs);
 Fraction operator*(const Fraction& lhs, const Fraction& rhs);
 Fraction operator/(const Fraction& lhs, const Fraction& rhs);
+
+bool operator<(const Fraction& lhs, const Fraction& rhs);
+bool operator<=(const Fraction& lhs, const Fraction& rhs);
+bool operator==(const Fraction& lhs, const Fraction& rhs);
+bool operator!=(const Fraction& lhs, const Fraction& rhs);
+bool operator>=(const Fraction& lhs, const Fraction& rhs);
+bool operator>(const Fraction& lhs, const Fraction& rhs);
+
 ostream& operator<<(ostream& out, const Fraction& fraction);

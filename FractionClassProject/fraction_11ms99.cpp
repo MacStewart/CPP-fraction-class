@@ -16,31 +16,30 @@ string& FractionException::what() {
 }
 
 Fraction::Fraction() {
-	numerator = 0;
-	denominator = 1;
+	mNumerator = 0;
+	mDenominator = 1;
 }
 
 Fraction::Fraction(int num) {
-	numerator = num;
-	denominator = 1;
+	mNumerator = num;
+	mDenominator = 1;
 }
 
 Fraction::Fraction(int num, int denom) {
-	int GCD = getGCD(num, denom);
-	if (GCD != 1) {
-		num /= GCD;
-		denom /= GCD;
+	if (denom == 0) {
+		throw FractionException("Denominator cannot be zero");
 	}
-	numerator = num;
-	denominator = denom;
+	mNumerator = num;
+	mDenominator = denom;
+	normalizeFraction();
 }
 
-int Fraction::getNumerator() const {
-	return numerator;
+int Fraction::numerator() const {
+	return mNumerator;
 }
 
-int Fraction::getDenominator() const {
-	return denominator;
+int Fraction::denominator() const {
+	return mDenominator;
 }
 
 int Fraction::getGCD(int first, int second) const {
@@ -54,4 +53,69 @@ int Fraction::getGCD(int first, int second) const {
 		return getGCD(second, first%second);
 	}
 }
+
+void Fraction::normalizeFraction() {
+	if (mDenominator < 0) {		//If both are negative, both are flipped (both to positive). If only denom is negative, both are also flipped (num to negative, denom to positive).
+		mNumerator = -mNumerator;
+		mDenominator = -mDenominator;
+	}
+	int GCD = getGCD(abs(mNumerator), mDenominator);
+	if (GCD != 1) {
+		mNumerator /= GCD;
+		mDenominator /= GCD;
+	}
+}
+
+Fraction& Fraction::operator+=(const Fraction& rhs) {
+	int numToAdd = rhs.mNumerator*mDenominator;
+	mNumerator = mNumerator*rhs.mDenominator + numToAdd;
+	mDenominator = mDenominator*rhs.mDenominator;
+	normalizeFraction();
+	return *this;
+}
+
+Fraction& Fraction::operator++() {
+	mNumerator++;
+	normalizeFraction();
+	return *this;
+}
+
+Fraction Fraction::operator++(int unused) {
+	Fraction copy(mNumerator, mDenominator);
+	mNumerator++;
+	normalizeFraction();
+	return copy;
+}
+
+Fraction operator+(const Fraction& lhs, const Fraction& rhs) {
+	int numerator = (lhs.numerator()*rhs.denominator()) + (rhs.numerator()*lhs.denominator());
+	int denominator = lhs.denominator()*rhs.denominator();
+	return Fraction(numerator, denominator);
+}
+
+Fraction operator-(const Fraction& lhs, const Fraction& rhs) {
+	int numerator = (lhs.numerator()*rhs.denominator()) - (rhs.numerator()*lhs.denominator());
+	int denominator = lhs.denominator()*rhs.denominator();
+	return Fraction(numerator, denominator);
+}
+
+Fraction operator*(const Fraction& lhs, const Fraction& rhs) {
+	int numerator = lhs.numerator()*rhs.numerator();
+	int denominator = lhs.denominator()*rhs.denominator();
+	return Fraction(numerator, denominator);
+}
+
+Fraction operator/(const Fraction& lhs, const Fraction& rhs) {
+	int numerator = lhs.numerator()*rhs.denominator();
+	int denominator = lhs.denominator()*rhs.numerator();
+	return Fraction(numerator, denominator);
+}
+
+
+ostream& operator<<(ostream& out, const Fraction& fraction) {
+	out << fraction.numerator() << "/" << fraction.denominator();
+	return out;
+}
+
+
 
