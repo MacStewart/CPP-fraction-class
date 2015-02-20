@@ -3,15 +3,25 @@ Mac Stewart - 11ms99 - 10043669
 Compiled in Visual Studio 2013 on Windows 8.1
 */
 
+#include <sstream>
+
 using namespace std;
 
 #include "fraction_11ms99.h"
 
-FractionException::FractionException(const string& msg) : message(msg) {
-
+FractionException::FractionException(const string& msg) {
+	message = msg;
 }
 
 string& FractionException::what() {
+	return message;
+}
+
+InputNotNumException::InputNotNumException(const string& msg) {
+	message = msg;
+}
+
+string& InputNotNumException::what() {
 	return message;
 }
 
@@ -59,10 +69,12 @@ void Fraction::normalizeFraction() {
 		mNumerator = -mNumerator;
 		mDenominator = -mDenominator;
 	}
-	int GCD = getGCD(abs(mNumerator), mDenominator);
-	if (GCD != 1) {
-		mNumerator /= GCD;
-		mDenominator /= GCD;
+	if (mNumerator != 0) {
+		int GCD = getGCD(abs(mNumerator), mDenominator);
+		if (GCD != 1) {
+			mNumerator /= GCD;
+			mDenominator /= GCD;
+		}
 	}
 }
 
@@ -139,11 +151,63 @@ bool operator>(const Fraction& lhs, const Fraction& rhs) {
 	return !(lhs <= rhs);
 }
 
+istream& operator>>(istream& in, Fraction& fraction) {
+	string input;
+	in >> input;
+	size_t valueSplitPoint(input.find_first_of("/"));
+	int numerator, denominator;
+	if (valueSplitPoint == string::npos) {
+		try {
+			numerator = stringToInt(input);
+			denominator = 1;
+		}
+		catch (InputNotNumException &e) {
+			cout << e.what() << endl;
+			return in;
+		}
+		
+	}
+	else {
+		try {
+			numerator = stringToInt(input.substr(0, valueSplitPoint));
+			try {
+				denominator = stringToInt(input.substr(valueSplitPoint + 1));
+			}
+			catch (InputNotNumException &e) {
+				cout << e.what() << endl;
+				return in;
+			}
+		}
+		catch (InputNotNumException &e) {
+			cout << e.what() << endl;
+			return in;
+		}
+	}
+	try {
+		fraction = Fraction(numerator, denominator);
+	}
+	catch (FractionException &e) {
+		throw e;
+	}
+	return in;
+}
+
+int stringToInt(const string& str) {
+	stringstream strstream(str);
+	int num;
+	if (strstream >> num)
+		return num;
+	else
+		throw InputNotNumException("Given input is not a valid fraction");
+
+	
+}
 
 ostream& operator<<(ostream& out, const Fraction& fraction) {
 	out << fraction.numerator() << "/" << fraction.denominator();
 	return out;
 }
+
 
 
 

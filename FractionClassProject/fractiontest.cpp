@@ -5,9 +5,10 @@
 #include <iostream>
 using namespace std;
 
-#include "fraction_11ms99.h"	
+#include "fraction_11ms99.h"	// Add your netid to the #include
 
 int main() {
+
 	// Test constructors and << operator overloading
 	Fraction test1;
 	cout << "Should be \"0/1\": " << test1 << endl;
@@ -79,22 +80,22 @@ int main() {
 	if (1 < test6)
 		cout << "Second mixed type comparison passed." << endl;
 
-	//// Test input, exception and +=:
-	//Fraction sum(0);
-	//Fraction fin;
-	//cout << "\nSumming fractions. Enter fractions as \"1/2\" or just enter a single integer." << endl;
-	//cout << "Enter zero to end the summation:" << endl;
-	//do {
-	//	cout << "Enter a fraction to add to sum: ";
-	//	try {
-	//		cin >> fin;
-	//		sum += fin;
-	//	}
-	//	catch (FractionException &e) {
-	//		cout << e.what() << endl;
-	//	}
-	//} while (fin != 0);
-	//cout << "Sum is: " << sum << endl;
+	// Test input, exception and +=:
+	Fraction sum(0);
+	Fraction fin;
+	cout << "\nSumming fractions. Enter fractions as \"1/2\" or just enter a single integer." << endl;
+	cout << "Enter zero to end the summation:" << endl;
+	do {
+		cout << "Enter a fraction to add to sum: ";
+		try {
+			cin >> fin;
+			sum += fin;
+		}
+		catch (FractionException &e) {
+			cout << e.what() << endl;
+		}
+	} while (fin != 0);
+	cout << "Sum is: " << sum << endl;
 
 	return 0;
 

@@ -1,3 +1,8 @@
+/*
+Mac Stewart - 11ms99 - 10043669
+Compiled in Visual Studio 2013 on Windows 8.1
+*/
+
 #pragma once
 
 #include <string>
@@ -5,7 +10,7 @@
 
 using namespace std;
 
-class FractionException {
+class FractionException {		//Thrown when denominator of fraction is set to 0
 public:
 	FractionException(const string&);
 	string& what();
@@ -13,17 +18,25 @@ private:
 	string message;
 };
 
+class InputNotNumException {	//Throw when string to integer converter is unable to turn given input into an integer
+public:
+	InputNotNumException(const string&);
+	string& what();
+private:
+	string message;
+};
+
 class Fraction {
 public:
-	Fraction();
-	Fraction(int);
-	Fraction(int, int);
-	int numerator() const;
-	int denominator() const;
+	Fraction();				//Default constructor sets fraction equal to 0/1
+	Fraction(int);			//Sets numerator equal to given int, and denominator equal to 1
+	Fraction(int, int);		//Sets fraction equal to first given int / second given int. Throws Fraction Exception if second given int is 0
+	int numerator() const;	//accessor for numerator
+	int denominator() const;	//accessor for denominator
 
-	Fraction& operator+=(const Fraction& rhs);
-	Fraction& operator++();		//Pre Increment
-	Fraction operator++(int);	//Post Incrememnt
+	Fraction& operator+=(const Fraction& rhs);	
+	Fraction& operator++();		//Pre Increment		
+	Fraction operator++(int);	//Post Incrememnt	
 
 private:
 	int mNumerator;
@@ -46,4 +59,6 @@ bool operator!=(const Fraction& lhs, const Fraction& rhs);
 bool operator>=(const Fraction& lhs, const Fraction& rhs);
 bool operator>(const Fraction& lhs, const Fraction& rhs);
 
+istream& operator>>(istream& in, Fraction& fraction);
+int stringToInt(const string& str);				//Converts given string into an integer. Throws InputNotNumException if it is unable to convert to integer.
 ostream& operator<<(ostream& out, const Fraction& fraction);
