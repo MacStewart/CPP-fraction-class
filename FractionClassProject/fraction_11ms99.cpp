@@ -75,16 +75,20 @@ Fraction& Fraction::operator+=(const Fraction& rhs) {
 }
 
 Fraction& Fraction::operator++() {
-	mNumerator++;
+	mNumerator += mDenominator;
 	normalizeFraction();
 	return *this;
 }
 
 Fraction Fraction::operator++(int unused) {
 	Fraction copy(mNumerator, mDenominator);
-	mNumerator++;
+	mNumerator += mDenominator;
 	normalizeFraction();
 	return copy;
+}
+
+Fraction operator-(const Fraction& fraction) {
+	return Fraction(fraction.numerator()*-1, fraction.denominator());
 }
 
 Fraction operator+(const Fraction& lhs, const Fraction& rhs) {
@@ -109,6 +113,30 @@ Fraction operator/(const Fraction& lhs, const Fraction& rhs) {
 	int numerator = lhs.numerator()*rhs.denominator();
 	int denominator = lhs.denominator()*rhs.numerator();
 	return Fraction(numerator, denominator);
+}
+
+bool operator<(const Fraction& lhs, const Fraction& rhs) {
+	return (static_cast<double>(lhs.numerator()) / lhs.denominator() < static_cast<double>(rhs.numerator()) / rhs.denominator());
+}
+
+bool operator<=(const Fraction& lhs, const Fraction& rhs) {
+	return (static_cast<double>(lhs.numerator()) / lhs.denominator() <= static_cast<double>(rhs.numerator()) / rhs.denominator());
+}
+
+bool operator==(const Fraction& lhs, const Fraction& rhs) {
+	return (static_cast<double>(lhs.numerator()) / lhs.denominator() == static_cast<double>(rhs.numerator()) / rhs.denominator());
+}
+
+bool operator!=(const Fraction& lhs, const Fraction& rhs) {
+	return !(lhs == rhs);
+}
+
+bool operator>=(const Fraction& lhs, const Fraction& rhs) {
+	return !(lhs < rhs);
+}
+
+bool operator>(const Fraction& lhs, const Fraction& rhs) {
+	return !(lhs <= rhs);
 }
 
 
